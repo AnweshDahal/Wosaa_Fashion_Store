@@ -2,7 +2,8 @@ package wosaa_fashion_store_is;
 
 /**
  *
- * Wosaa Fashion Store Information System
+ * Title: Wosaa Fashion Store Information System
+ * Part: Main GUI
  * @author 19030375 Anwesh Dahal
  * @author 19030875 Bishesh Dangol
  * @author 19031389 Pratik Amatya

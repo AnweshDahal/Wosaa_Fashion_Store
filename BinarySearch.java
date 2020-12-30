@@ -1,14 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package wosaa_fashion_store_is;
 
 /**
  *
- * @author Anwesh Dahal
- * @universityID 19030735
+ * Title: Wosaa Fashion Store Information System
+ * Part: Binary Search
+ * @author 19030375 Anwesh Dahal
+ * @author 19030875 Bishesh Dangol
+ * @author 19031389 Pratik Amatya
+ * @author 19031710 Srijan Adhikari
  */
 public class BinarySearch {
     public static int search(Object[][] array, int low, int high, int find){
