@@ -1,4 +1,14 @@
-package wosaa_fashion_store_is;
+
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 
 /**
  *
@@ -36,21 +46,16 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         addItemLBL = new javax.swing.JLabel();
         idLBL = new javax.swing.JLabel();
         idTF = new javax.swing.JTextField();
-        itemIDValidationLBL = new javax.swing.JLabel();
         nameLBL = new javax.swing.JLabel();
         nameTF = new javax.swing.JTextField();
-        nameValidationLBL = new javax.swing.JLabel();
         brandLBL = new javax.swing.JLabel();
         brandTF = new javax.swing.JTextField();
-        brandValidationLBL = new javax.swing.JLabel();
         typeLBL = new javax.swing.JLabel();
         typeCB = new javax.swing.JComboBox<>();
-        typeValidationLBL = new javax.swing.JLabel();
         genderLBL = new javax.swing.JLabel();
         menRB = new javax.swing.JRadioButton();
         womenRB = new javax.swing.JRadioButton();
         unisexRB = new javax.swing.JRadioButton();
-        genderValidationLBL = new javax.swing.JLabel();
         sizeLBL = new javax.swing.JLabel();
         xsChkB = new javax.swing.JCheckBox();
         sChkB = new javax.swing.JCheckBox();
@@ -59,12 +64,17 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         xlChkB = new javax.swing.JCheckBox();
         xxlChkB = new javax.swing.JCheckBox();
         xxxLChkB = new javax.swing.JCheckBox();
-        sizeValidationLBL = new javax.swing.JLabel();
         priceLBL = new javax.swing.JLabel();
         priceTF = new javax.swing.JTextField();
-        priceValidationLBL = new javax.swing.JLabel();
         addBTN = new javax.swing.JButton();
         clearBTN = new javax.swing.JButton();
+        itemIDValidationLBL = new javax.swing.JLabel();
+        brandValidationLBL = new javax.swing.JLabel();
+        genderValidationLBL = new javax.swing.JLabel();
+        typeValidationLBL = new javax.swing.JLabel();
+        sizeValidationLBL = new javax.swing.JLabel();
+        priceValidationLBL = new javax.swing.JLabel();
+        nameValidationLBL = new javax.swing.JLabel();
         searchItemPane = new javax.swing.JPanel();
         searchItemLBL = new javax.swing.JLabel();
         searchPriceValidationLBL = new javax.swing.JLabel();
@@ -83,7 +93,6 @@ public class WosaaFSInfo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Wosaa Fashion Store - Inventory Information System");
-        setAlwaysOnTop(true);
 
         itemTable.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         itemTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -106,13 +115,14 @@ public class WosaaFSInfo extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                true, true, true, true, true, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        itemTable.setShowGrid(true);
         jScrollPane1.setViewportView(itemTable);
 
         tableTitleLBL.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -128,34 +138,40 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         idLBL.setText("Item ID");
 
         idTF.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
-        itemIDValidationLBL.setForeground(new java.awt.Color(255, 0, 51));
-        itemIDValidationLBL.setText("* Required Field");
+        idTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                idTFKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                idTFKeyReleased(evt);
+            }
+        });
 
         nameLBL.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         nameLBL.setText("Item Name");
 
         nameTF.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
-        nameValidationLBL.setForeground(new java.awt.Color(255, 0, 51));
-        nameValidationLBL.setText("* Required Field");
+        nameTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                nameTFKeyReleased(evt);
+            }
+        });
 
         brandLBL.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         brandLBL.setText("Item Brand");
 
         brandTF.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
-        brandValidationLBL.setForeground(new java.awt.Color(255, 0, 51));
-        brandValidationLBL.setText("* Required Field");
+        brandTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                brandTFKeyReleased(evt);
+            }
+        });
 
         typeLBL.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         typeLBL.setText("Item Type");
 
         typeCB.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         typeCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Type --", "T-Shirt", "Shirt", "Sweater", "Jacket", "Pants", "Coat" }));
-
-        typeValidationLBL.setForeground(new java.awt.Color(255, 0, 51));
-        typeValidationLBL.setText("* Required Field");
 
         genderLBL.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         genderLBL.setText("Item Gender");
@@ -171,9 +187,6 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         genderBG.add(unisexRB);
         unisexRB.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         unisexRB.setText("Unisex");
-
-        genderValidationLBL.setForeground(new java.awt.Color(255, 0, 51));
-        genderValidationLBL.setText("* Required Field");
 
         sizeLBL.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         sizeLBL.setText("Item Size");
@@ -199,22 +212,48 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         xxxLChkB.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         xxxLChkB.setText("XXXL");
 
-        sizeValidationLBL.setForeground(new java.awt.Color(255, 0, 51));
-        sizeValidationLBL.setText("* Required Field/ Select At Least 1");
-
         priceLBL.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         priceLBL.setText("Item Price");
 
         priceTF.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
-        priceValidationLBL.setForeground(new java.awt.Color(255, 0, 51));
-        priceValidationLBL.setText("* Required Field");
+        priceTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                priceTFKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                priceTFKeyReleased(evt);
+            }
+        });
 
         addBTN.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         addBTN.setText("Add");
+        addBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBTNActionPerformed(evt);
+            }
+        });
 
         clearBTN.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         clearBTN.setText("Clear");
+        clearBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearBTNActionPerformed(evt);
+            }
+        });
+
+        itemIDValidationLBL.setForeground(new java.awt.Color(255, 0, 0));
+
+        brandValidationLBL.setForeground(new java.awt.Color(255, 0, 0));
+
+        genderValidationLBL.setForeground(new java.awt.Color(255, 0, 0));
+
+        typeValidationLBL.setForeground(new java.awt.Color(255, 0, 51));
+
+        sizeValidationLBL.setForeground(new java.awt.Color(255, 0, 0));
+
+        priceValidationLBL.setForeground(new java.awt.Color(255, 0, 0));
+
+        nameValidationLBL.setForeground(new java.awt.Color(255, 0, 0));
 
         javax.swing.GroupLayout addItemPaneLayout = new javax.swing.GroupLayout(addItemPane);
         addItemPane.setLayout(addItemPaneLayout);
@@ -267,71 +306,67 @@ public class WosaaFSInfo extends javax.swing.JFrame {
                             .addComponent(priceLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(38, 38, 38)
+                .addComponent(nameValidationLBL)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(itemIDValidationLBL)
-                    .addComponent(nameValidationLBL)
                     .addComponent(brandValidationLBL)
-                    .addComponent(typeValidationLBL)
+                    .addComponent(itemIDValidationLBL)
                     .addComponent(genderValidationLBL)
+                    .addComponent(typeValidationLBL)
                     .addComponent(sizeValidationLBL)
                     .addComponent(priceValidationLBL))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(217, Short.MAX_VALUE))
         );
         addItemPaneLayout.setVerticalGroup(
             addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(addItemPaneLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(addItemLBL)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(idLBL)
                     .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(itemIDValidationLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(itemIDValidationLBL))
+                .addGap(17, 17, 17)
+                .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameLBL)
+                    .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameValidationLBL))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nameValidationLBL, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(nameLBL)
-                        .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(brandValidationLBL, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(brandLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(brandTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(typeValidationLBL, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
-                    .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(typeLBL)
-                        .addComponent(typeCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(genderValidationLBL, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(genderLBL)
-                        .addComponent(menRB)
-                        .addComponent(womenRB)
-                        .addComponent(unisexRB)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sizeValidationLBL, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(sizeLBL)
-                        .addComponent(xsChkB)
-                        .addComponent(sChkB)
-                        .addComponent(mChkB)
-                        .addComponent(lChkB)
-                        .addComponent(xlChkB)
-                        .addComponent(xxlChkB)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(brandLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(brandTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(brandValidationLBL))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 12, Short.MAX_VALUE)
+                .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(typeLBL)
+                    .addComponent(typeCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(typeValidationLBL))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(genderLBL)
+                    .addComponent(menRB)
+                    .addComponent(womenRB)
+                    .addComponent(unisexRB)
+                    .addComponent(genderValidationLBL))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 12, Short.MAX_VALUE)
+                .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sizeLBL)
+                    .addComponent(xsChkB)
+                    .addComponent(sChkB)
+                    .addComponent(mChkB)
+                    .addComponent(lChkB)
+                    .addComponent(xlChkB)
+                    .addComponent(xxlChkB)
+                    .addComponent(sizeValidationLBL))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, Short.MAX_VALUE)
                 .addComponent(xxxLChkB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(priceLBL)
                     .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(priceValidationLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(priceValidationLBL))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(addItemPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addBTN)
@@ -345,12 +380,16 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         searchItemLBL.setText("Search Item");
 
         searchPriceValidationLBL.setForeground(new java.awt.Color(255, 0, 51));
-        searchPriceValidationLBL.setText("* Required Field");
 
         searchItemByPriceLBL.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         searchItemByPriceLBL.setText("Search Item By Price");
 
         priceSearchTF.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        priceSearchTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                priceSearchTFKeyPressed(evt);
+            }
+        });
 
         searchPriceBTN.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         searchPriceBTN.setText("Search");
@@ -364,12 +403,16 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         searchItemByTypeLBL.setText("Search Item By Type");
 
         searchTypeValidationLBL.setForeground(new java.awt.Color(255, 0, 51));
-        searchTypeValidationLBL.setText("* Required Field");
 
         typeSearchCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Type --", "T-Shirt", "Shirt", "Sweater", "Jacket", "Pants", "Coat" }));
 
         searchTypeBTN.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         searchTypeBTN.setText("Search");
+        searchTypeBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTypeBTNActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout searchItemPaneLayout = new javax.swing.GroupLayout(searchItemPane);
         searchItemPane.setLayout(searchItemPaneLayout);
@@ -418,7 +461,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
                     .addComponent(searchItemByTypeLBL)
                     .addComponent(typeSearchCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchTypeBTN))
-                .addContainerGap(211, Short.MAX_VALUE))
+                .addContainerGap(225, Short.MAX_VALUE))
         );
 
         controlsTbP.addTab("Search Item", searchItemPane);
@@ -465,9 +508,253 @@ public class WosaaFSInfo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchPriceBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchPriceBTNActionPerformed
-        // TODO add your handling code here:
+        String search_price = priceSearchTF.getText();
+        
+        if (!search_price.isEmpty()) {
+            
+        } else {
+            searchPriceValidationLBL.setText("*Required Field");
+            searchPriceValidationLBL.grabFocus();
+            JOptionPane.showMessageDialog(null,"The price field must not be left empty.","Alert",JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_searchPriceBTNActionPerformed
 
+    private void clearBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBTNActionPerformed
+        //Clear Button
+        idTF.setText("");
+        nameTF.setText("");
+        brandTF.setText("");
+        typeCB.setSelectedIndex(0);
+        genderBG.clearSelection();
+        xsChkB.setSelected(false);
+        sChkB.setSelected(false);
+        lChkB.setSelected(false);
+        mChkB.setSelected(false);
+        xlChkB.setSelected(false);
+        xxlChkB.setSelected(false);
+        xxxLChkB.setSelected(false);
+        priceTF.setText("");
+    }//GEN-LAST:event_clearBTNActionPerformed
+    
+    
+    private void addBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBTNActionPerformed
+        String item_id = idTF.getText();
+        String item_name = nameTF.getText();
+        String item_brand = brandTF.getText();
+
+        String item_type = (String) typeCB.getSelectedItem();
+
+        //To get the selected gender
+        String item_gender = "";
+        if (menRB.isSelected()) {
+            item_gender = menRB.getText();
+        }
+        if (womenRB.isSelected()) {
+            item_gender = womenRB.getText();
+        }
+        if (unisexRB.isSelected()) {
+            item_gender = unisexRB.getText();
+        }
+        String item_size = "";
+
+        if (xsChkB.isSelected()){
+            item_size = item_size + xsChkB.getText() + ",";
+        }
+        if (sChkB.isSelected()){
+            item_size = item_size + sChkB.getText() + ",";
+        }
+        if (mChkB.isSelected()){
+            item_size = item_size + mChkB.getText() + ",";
+        }
+        if (lChkB.isSelected()){
+            item_size = item_size + lChkB.getText() + ",";
+        }
+        if (xlChkB.isSelected()){
+            item_size = item_size + xlChkB.getText() + ",";
+        }
+        if (xxlChkB.isSelected()){
+            item_size = item_size + xxlChkB.getText() + ",";
+        }
+
+        if (item_size.length() != 0) {
+            item_size = item_size.substring(0, item_size.length() - 1);
+        }
+
+        String item_price = priceTF.getText();
+
+        //Adding data into jTable
+        int nextRow = 0;
+        boolean empty = false;
+        String s;
+        int rows = itemTable.getRowCount();
+        int colCount = itemTable.getColumnCount();
+
+        if (!item_id.isEmpty()){
+            if (!item_name.isEmpty()) {
+                if (!item_brand.isEmpty()) {
+                    if (typeCB.getSelectedIndex() != 0) {
+                        if (!item_gender.isEmpty()) {
+                            if (!item_size.isEmpty()) {
+                                if (!item_price.isEmpty()) {
+                                    String data [] = {item_id, item_name, item_brand, item_type, item_gender, item_size, item_price};
+                                    Warning();
+                                        
+                                    do {
+                                        s =(String) itemTable.getValueAt (nextRow, 0);
+                                        if (s != null && s.length() != 0) {
+                                            nextRow++;
+                                        } else {
+                                            empty = true;
+                                        }
+                                    }while (nextRow < rows && !empty);
+                                     if (nextRow >= rows && !empty) {
+                                         DefaultTableModel model = (DefaultTableModel) itemTable.getModel();
+                                         model.addRow(data);
+                                         
+                                     }else {
+                                         for (int i = 0; i < colCount; i++) {
+                                             itemTable.setValueAt(data[i], nextRow, i);
+                                         }
+                                     }
+                                } else {
+                                    Warning();
+                                    priceValidationLBL.setText("*Required Field");
+                                    JOptionPane.showMessageDialog(new javax.swing.JFrame(), "Please fill in the price of the item.","Alert",JOptionPane.WARNING_MESSAGE);
+                                }
+                            } else {
+                                sizeValidationLBL.setText("*Required Field");
+                                itemIDValidationLBL.setText("");
+                                nameValidationLBL.setText("");
+                                brandValidationLBL.setText("");
+                                typeValidationLBL.setText("");
+                                genderValidationLBL.setText("");
+                                priceValidationLBL.setText("");
+                                JOptionPane.showMessageDialog(null,"Please select one or more than one size option.","Alert",JOptionPane.WARNING_MESSAGE);
+                            }
+                        }else {
+                            genderValidationLBL.setText("*Required Field");
+                            itemIDValidationLBL.setText("");
+                            nameValidationLBL.setText("");
+                            brandValidationLBL.setText("");
+                            typeValidationLBL.setText("");
+                            sizeValidationLBL.setText("");
+                            priceValidationLBL.setText("");
+                            JOptionPane.showMessageDialog(null,"Please select any one of the gender option.","Alert",JOptionPane.WARNING_MESSAGE);
+                        }
+                    } else {
+                        typeValidationLBL.setText("*Required Field");
+                        itemIDValidationLBL.setText("");
+                        nameValidationLBL.setText("");
+                        brandValidationLBL.setText("");
+                        genderValidationLBL.setText("");
+                        sizeValidationLBL.setText("");
+                        priceValidationLBL.setText("");
+                        JOptionPane.showMessageDialog(null,"Please select the type of item.","Alert",JOptionPane.WARNING_MESSAGE);
+                    }
+                } else {
+                    brandValidationLBL.setText("*Required Field");
+                    brandTF.grabFocus();
+                    itemIDValidationLBL.setText("");
+                    nameValidationLBL.setText("");
+                    typeValidationLBL.setText("");
+                    genderValidationLBL.setText("");
+                    sizeValidationLBL.setText("");
+                    priceValidationLBL.setText("");
+                    JOptionPane.showMessageDialog(null,"Please fill in the brand of the item.","Alert",JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                nameValidationLBL.setText("*Required Field");
+                nameTF.grabFocus();
+                itemIDValidationLBL.setText("");
+                brandValidationLBL.setText("");
+                typeValidationLBL.setText("");
+                genderValidationLBL.setText("");
+                sizeValidationLBL.setText("");
+                priceValidationLBL.setText("");
+                JOptionPane.showMessageDialog(null,"Please fill in the name of the item.","Alert",JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            itemIDValidationLBL.setText("*Required Field");
+            idTF.grabFocus();
+            nameValidationLBL.setText("");
+            brandValidationLBL.setText("");
+            typeValidationLBL.setText("");
+            genderValidationLBL.setText("");
+            sizeValidationLBL.setText("");
+            priceValidationLBL.setText("");
+            JOptionPane.showMessageDialog(null,"Please fill in the id of the item.","Alert",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_addBTNActionPerformed
+
+    public void Warning() {
+        itemIDValidationLBL.setText("");
+        nameValidationLBL.setText("");
+        brandValidationLBL.setText("");
+        typeValidationLBL.setText("");
+        genderValidationLBL.setText("");
+        sizeValidationLBL.setText("");
+        priceValidationLBL.setText("");
+    }
+    private void idTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTFKeyPressed
+        char a = evt.getKeyChar();
+        if (Character.isDigit(a)||evt.getKeyCode()==8) {
+            idTF.setEditable(true);
+        } else {
+            idTF.setEditable(false);
+        }
+    }//GEN-LAST:event_idTFKeyPressed
+
+    private void priceTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_priceTFKeyPressed
+        char a = evt.getKeyChar();
+        if (Character.isDigit(a)||evt.getKeyCode()==8) {
+            priceTF.setEditable(true);
+        } else {
+            priceTF.setEditable(false);
+        }
+    }//GEN-LAST:event_priceTFKeyPressed
+
+    private void priceSearchTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_priceSearchTFKeyPressed
+        char a = evt.getKeyChar();
+        if (Character.isDigit(a)||evt.getKeyCode()==8) {
+            priceSearchTF.setEditable(true);
+        } else {
+            priceSearchTF.setEditable(false);
+        }
+    }//GEN-LAST:event_priceSearchTFKeyPressed
+
+    private void searchTypeBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTypeBTNActionPerformed
+        String search_type = (String) typeSearchCB.getSelectedItem();
+        
+        if (typeSearchCB.getSelectedIndex() != 0) {
+        
+        } else {
+            searchTypeValidationLBL.setText("*Required Field");
+            JOptionPane.showMessageDialog(null,"The type of the item should not be left empty.","Alert",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_searchTypeBTNActionPerformed
+
+    private void idTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTFKeyReleased
+        // TODO add your handling code here:
+        itemIDValidationLBL.setText("");
+    }//GEN-LAST:event_idTFKeyReleased
+
+    private void nameTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTFKeyReleased
+        // TODO add your handling code here:
+        nameValidationLBL.setText("");
+    }//GEN-LAST:event_nameTFKeyReleased
+
+    private void brandTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_brandTFKeyReleased
+        // TODO add your handling code here:
+        brandValidationLBL.setText("");
+    }//GEN-LAST:event_brandTFKeyReleased
+
+    private void priceTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_priceTFKeyReleased
+        // TODO add your handling code here:
+        priceValidationLBL.setText("");
+    }//GEN-LAST:event_priceTFKeyReleased
+    
+    
+            
     /**
      * @param args the command line arguments
      */
