@@ -511,7 +511,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         String search_price = priceSearchTF.getText();
         
         if (!search_price.isEmpty()) {
-            
+            searchPrice(Integer.parseInt(search_price));
         } else {
             searchPriceValidationLBL.setText("*Required Field");
             searchPriceValidationLBL.grabFocus();
@@ -753,7 +753,54 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         priceValidationLBL.setText("");
     }//GEN-LAST:event_priceTFKeyReleased
     
+    private void searchPrice(int price){
+        // Check if the table contains data
+        Object checkObj = itemTable.getValueAt(0, 0);
+        if (checkObj == null){
+            JOptionPane.showMessageDialog(null,"There are no items to search","Alert",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+            
+        // Total number of rows in the table
+        int totalRows = itemTable.getRowCount();
+        // Number of columns in the table
+        int columns = 7;
+        // Number of filled row
+        int rows = findFilledRows(totalRows);
+        // Getting the number of filled rows
+        Object[][] itemsArray = new Object[rows][columns];
+        
+        // Insert Data into an array for search
+        for (int i = 0; i < rows; i++){
+            for (int j = 0; j < columns; j++){
+                itemsArray[i][j] = itemTable.getValueAt(i, j);
+            }
+        }
+        for (int i = 0; i < rows; i++){
+            for (int j = 0; j < columns; j++){
+                System.out.print(itemsArray[i][j] + "| " );
+            }
+            System.out.println("");
+        }
+        System.out.println("Rows: " + rows + ", Columns: " + columns);
+    }
     
+    private int findFilledRows(int totalRows){
+        int rows = 0;
+        for (int i = 0; i < totalRows; i++){
+            // Only the item at index 0 is checked because 
+            // the validation during the insertion assures that
+            // all of the columns on the rows have data in them
+            Object checkRowObj = itemTable.getValueAt(i,0);
+            if (checkRowObj != null){
+                rows++;
+            } else{
+                // Stop checking after a null value is found
+                break;
+            }
+        }
+       return rows; 
+    }
             
     /**
      * @param args the command line arguments
