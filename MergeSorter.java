@@ -71,12 +71,21 @@ public class MergeSorter {
             indexMainArray++;
         }
         
+        /**
+         * if all the elements of firstArray is added in the mainArray
+         * then Loop B is executed else Loop A is executed
+         */
+        
+        // Loop A
+        // adds the remaining element of the first array to the main array
         while (indexFirstArray < firstArray.length){
             mainArray[indexMainArray] = firstArray[indexFirstArray];
             indexFirstArray++;
             indexMainArray++;
         }
         
+        // Loop B
+        // adds the remaining element of the second array to the main array
         while(indexSecondArray < secondArray.length){
             mainArray[indexMainArray] = secondArray[indexSecondArray];
             indexSecondArray++;
