@@ -1,5 +1,3 @@
-
-import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import wosaa_fashion_store_is.BinarySearch;
@@ -40,7 +38,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
     private void initComponents() {
 
         genderBG = new javax.swing.ButtonGroup();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        tableScrollPane = new javax.swing.JScrollPane();
         itemTable = new javax.swing.JTable();
         tableTitleLBL = new javax.swing.JLabel();
         controlsTbP = new javax.swing.JTabbedPane();
@@ -125,11 +123,11 @@ public class WosaaFSInfo extends javax.swing.JFrame {
             }
         });
         itemTable.setShowGrid(true);
-        jScrollPane1.setViewportView(itemTable);
+        tableScrollPane.setViewportView(itemTable);
 
         tableTitleLBL.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tableTitleLBL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tableTitleLBL.setText("Wosaa Fashion Store - Inormation System");
+        tableTitleLBL.setText("Wosaa Fashion Store - Information System");
 
         controlsTbP.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -488,7 +486,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(tableScrollPane)
             .addComponent(tableTitleLBL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -500,7 +498,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(tableTitleLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(controlsTbP)
                 .addContainerGap())
@@ -805,6 +803,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
             return false;
         }
     }
+    
     private void searchPrice(int price){
         
         // Check if the table contains data
@@ -839,6 +838,11 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         
         // searching the item in the array using binary search
         int ansPos = BinarySearch.search(itemsArray, low, high, price);
+        
+        if (ansPos == -1){
+            JOptionPane.showMessageDialog(searchItemPane,"Item Not Found!","Alert",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
    
         
         
@@ -870,6 +874,12 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(addItemPane, display);
     }
     
+    /**
+     * Gets the number of filled rows
+     * 
+     * @param totalRows
+     * @return 
+     */
     private int findFilledRows(int totalRows){
         int rows = 0;
         for (int i = 0; i < totalRows; i++){
@@ -941,7 +951,6 @@ public class WosaaFSInfo extends javax.swing.JFrame {
     private javax.swing.JTextField idTF;
     private javax.swing.JLabel itemIDValidationLBL;
     private javax.swing.JTable itemTable;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JCheckBox lChkB;
     private javax.swing.JCheckBox mChkB;
     private javax.swing.JMenuBar mainMenu;
@@ -965,6 +974,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
     private javax.swing.JLabel searchTypeValidationLBL;
     private javax.swing.JLabel sizeLBL;
     private javax.swing.JLabel sizeValidationLBL;
+    private javax.swing.JScrollPane tableScrollPane;
     private javax.swing.JLabel tableTitleLBL;
     private javax.swing.JComboBox<String> typeCB;
     private javax.swing.JLabel typeLBL;
