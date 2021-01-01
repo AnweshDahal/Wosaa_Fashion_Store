@@ -728,7 +728,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         String search_type = (String) typeSearchCB.getSelectedItem();
         
         if (typeSearchCB.getSelectedIndex() != 0) {
-        
+            searchType(search_type);
         } else {
             searchTypeValidationLBL.setText("*Required Field");
             JOptionPane.showMessageDialog(null,"The type of the item should not be left empty.","Alert",JOptionPane.WARNING_MESSAGE);
@@ -755,10 +755,60 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         priceValidationLBL.setText("");
     }//GEN-LAST:event_priceTFKeyReleased
     
-    private void searchPrice(int price){
+    private void searchType(String itemType){
         // Check if the table contains data
+        if(checkTableEmpty()){
+            JOptionPane.showMessageDialog(null,"There are no items to search","Alert",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Total number of rows in the table
+        int totalRows = itemTable.getRowCount();
+        // Number of columns in the table
+        int columns = 7;
+        // Number of filled row
+        int rows = findFilledRows(totalRows);
+        // Getting the number of filled rows
+        Object[][] itemsArray = new Object[rows][columns];
+        
+        // Insert Data into an array for search
+        for (int i = 0; i < rows; i++){
+            for (int j = 0; j < columns; j++){
+                itemsArray[i][j] = itemTable.getValueAt(i, j);
+            }
+        }
+        
+        // Sotres the name of the required items
+        String answer = "";
+        
+        // retrieving the items of the required type
+        for (int i = 0; i < itemsArray.length; i++){
+            if (itemsArray[i][3].equals(itemType)){
+                answer += "\n > " + (String) itemsArray[i][1];
+            }
+        }
+        
+        // Display the result
+        JOptionPane.showMessageDialog(searchItemPane, "Here are the " + itemType + " in the data base" + answer);
+    }
+    
+    /**
+     * Checks if the table is empty
+     * 
+     * @return isEmpty  
+     */
+    private boolean checkTableEmpty(){
         Object checkObj = itemTable.getValueAt(0, 0);
         if (checkObj == null){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private void searchPrice(int price){
+        
+        // Check if the table contains data
+        if(checkTableEmpty()){
             JOptionPane.showMessageDialog(null,"There are no items to search","Alert",JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -781,13 +831,6 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         // Sorting the itemsArray using MergeSort
         MergeSorter.sort(itemsArray);
         
-        for (int i = 0; i < rows; i++){
-            for (int j = 0; j < columns; j++){
-                System.out.print(itemsArray[i][j] + "| " );
-            }
-            System.out.println("");
-        }
-        
         // lowest index of the array, defaults to 0
         int low = 0;
         
@@ -803,9 +846,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
          * Since the binary search may not return the first occurrence of the
          * item with same price in the items table the value of first
          * occurrence is determined by the following loop
-         */
-        System.out.println(ansPos);
-        
+         */       
         while (ansPos < itemsArray.length - 1){
             if (Integer.parseInt((String) itemsArray[ansPos + 1][6]) == price){
                 System.out.println(itemsArray[ansPos][6]);
@@ -814,8 +855,6 @@ public class WosaaFSInfo extends javax.swing.JFrame {
                 break;
             }
         }
-        
-        System.out.println(ansPos);
         
         Object[] targetItem = itemsArray[ansPos];
         
@@ -828,12 +867,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
                             "\nItem Sizes: " + targetItem[5] +
                             "\nItem Price: " + targetItem[6];
         
-        System.out.println(display);
-        
         JOptionPane.showMessageDialog(addItemPane, display);
-        
-                
-        System.out.println("Rows: " + rows + ", Columns: " + columns);
     }
     
     private int findFilledRows(int totalRows){
