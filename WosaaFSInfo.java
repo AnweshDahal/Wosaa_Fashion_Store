@@ -786,6 +786,11 @@ public class WosaaFSInfo extends javax.swing.JFrame {
             }
         }
         
+        if (answer.equals("")){
+            JOptionPane.showMessageDialog(searchItemPane,"Item Not Found!","Alert",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         // Display the result
         JOptionPane.showMessageDialog(searchItemPane, "Here are the " + itemType + " in the data base" + answer);
     }
