@@ -2,6 +2,8 @@
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import wosaa_fashion_store_is.BinarySearch;
+import wosaa_fashion_store_is.MergeSorter;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -776,12 +778,61 @@ public class WosaaFSInfo extends javax.swing.JFrame {
                 itemsArray[i][j] = itemTable.getValueAt(i, j);
             }
         }
+        // Sorting the itemsArray using MergeSort
+        MergeSorter.sort(itemsArray);
+        
         for (int i = 0; i < rows; i++){
             for (int j = 0; j < columns; j++){
                 System.out.print(itemsArray[i][j] + "| " );
             }
             System.out.println("");
         }
+        
+        // lowest index of the array, defaults to 0
+        int low = 0;
+        
+        // highest index of the array, equals length of array -1
+        int high = itemsArray.length - 1;
+        
+        // searching the item in the array using binary search
+        int ansPos = BinarySearch.search(itemsArray, low, high, price);
+   
+        
+        
+        /**
+         * Since the binary search may not return the first occurrence of the
+         * item with same price in the items table the value of first
+         * occurrence is determined by the following loop
+         */
+        System.out.println(ansPos);
+        
+        while (ansPos < itemsArray.length - 1){
+            if (Integer.parseInt((String) itemsArray[ansPos + 1][6]) == price){
+                System.out.println(itemsArray[ansPos][6]);
+                ansPos++;
+            } else{
+                break;
+            }
+        }
+        
+        System.out.println(ansPos);
+        
+        Object[] targetItem = itemsArray[ansPos];
+        
+        String display = "Item Found:" + 
+                            "\nItem ID: " + targetItem[0] + 
+                            "\nItem Name: " + targetItem[1] +
+                            "\nItem Brand: " + targetItem[2] +
+                            "\nItem Type: " + targetItem[3] +
+                            "\nItem Gender: " + targetItem[4] +
+                            "\nItem Sizes: " + targetItem[5] +
+                            "\nItem Price: " + targetItem[6];
+        
+        System.out.println(display);
+        
+        JOptionPane.showMessageDialog(addItemPane, display);
+        
+                
         System.out.println("Rows: " + rows + ", Columns: " + columns);
     }
     
