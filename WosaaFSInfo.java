@@ -1,3 +1,4 @@
+package wosaa_fashion_store_is;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import wosaa_fashion_store_is.BinarySearch;
@@ -520,7 +521,11 @@ public class WosaaFSInfo extends javax.swing.JFrame {
     }//GEN-LAST:event_searchPriceBTNActionPerformed
 
     private void clearBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBTNActionPerformed
-        //Clear Button
+        //call the clearMethod in the program 
+        clearMethod();
+    }//GEN-LAST:event_clearBTNActionPerformed
+    
+    private void clearMethod() {
         idTF.setText("");
         nameTF.setText("");
         brandTF.setText("");
@@ -534,158 +539,273 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         xxlChkB.setSelected(false);
         xxxLChkB.setSelected(false);
         priceTF.setText("");
-    }//GEN-LAST:event_clearBTNActionPerformed
-    
+    }
+    /**
+     * To insert the row of input into the jTable.
+     * @param data 
+     */
+    public void populateData(String[] data) {
+        //declaring the nextrow variable 0.
+        int nextRow = 0;
+        
+        //To check if the table is empty or not.
+        boolean empty = false;
+        
+        String s = "";
+        
+        //retriving the total row in the table.
+        int rows = itemTable.getRowCount();
+        
+        //setting the total oolumns in the table 
+        int colCount = 7;
+        
+        //To check if the row is occupied.
+        do {
+            s =(String) itemTable.getValueAt (nextRow, 0);
+            if (s != null && s.length() != 0) {
+                nextRow++;
+            } else {
+                empty = true;
+            }
+        } while (nextRow < rows && !empty);
+        
+        //Check if the row is empty
+        if (nextRow >= rows && !empty) {
+            
+            //Declare a DefaultTableModel
+            DefaultTableModel model = (DefaultTableModel) itemTable.getModel();
+            
+            //To add the row of data into the model.
+            model.addRow(data);
+        }else {
+            //To add the row of data into the model.
+            for (int i = 0; i < colCount; i++) {
+                itemTable.setValueAt(data[i], nextRow, i);
+            }
+            //Clear all the fields after adding the data.
+            clearMethod();
+        }
+    }
     
     private void addBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBTNActionPerformed
+        
+        //Get the item id from the field
         String item_id = idTF.getText();
+        
+        //Get the item name from the field
         String item_name = nameTF.getText();
+        
+        //Get the brand name from the field
         String item_brand = brandTF.getText();
 
+        //Get the item type from the field
         String item_type = (String) typeCB.getSelectedItem();
 
-        //To get the selected gender
+        //Set the selected gender as null
         String item_gender = "";
+        
+        //Set the gender if men is selected
         if (menRB.isSelected()) {
             item_gender = menRB.getText();
         }
+        //Set the gender if women is selected
         if (womenRB.isSelected()) {
             item_gender = womenRB.getText();
         }
+        //Set the gender if unisex is selected
         if (unisexRB.isSelected()) {
             item_gender = unisexRB.getText();
         }
+        
+        //Set the item size as null
         String item_size = "";
-
+        //Set this size if xs is selected
         if (xsChkB.isSelected()){
             item_size = item_size + xsChkB.getText() + ",";
         }
+        //Set this size if s is selected
         if (sChkB.isSelected()){
             item_size = item_size + sChkB.getText() + ",";
         }
+        //Set this size if m is selected
         if (mChkB.isSelected()){
             item_size = item_size + mChkB.getText() + ",";
         }
+        //Set this size if l is selected
         if (lChkB.isSelected()){
             item_size = item_size + lChkB.getText() + ",";
         }
+        //Set this size if xl is selected
         if (xlChkB.isSelected()){
             item_size = item_size + xlChkB.getText() + ",";
         }
+        //Set this size if xx is selected
         if (xxlChkB.isSelected()){
             item_size = item_size + xxlChkB.getText() + ",";
         }
-
+        //Set this size if xxl is selected
+        if (xxxLChkB.isSelected()){
+            item_size = item_size + xxlChkB.getText() + ",";
+        }
+        
+        //To discard string in the last position
         if (item_size.length() != 0) {
             item_size = item_size.substring(0, item_size.length() - 1);
         }
 
+        //Get the price from the fields
         String item_price = priceTF.getText();
 
-        //Adding data into jTable
-        int nextRow = 0;
-        boolean empty = false;
-        String s;
-        int rows = itemTable.getRowCount();
-        int colCount = itemTable.getColumnCount();
-
+        //Check if the item id field is empty 
         if (!item_id.isEmpty()){
+            //Check if the item name field is empty
             if (!item_name.isEmpty()) {
+                //Check if the brand name in the field is empty
                 if (!item_brand.isEmpty()) {
+                    //Check if the correct combo box is selected
                     if (typeCB.getSelectedIndex() != 0) {
+                        //Check if the gender is empty
                         if (!item_gender.isEmpty()) {
+                            //Check if the size of the item the field is empty
                             if (!item_size.isEmpty()) {
+                                //Check if the price of the item in the field is empty
                                 if (!item_price.isEmpty()) {
+                                    
+                                    //Store the variables in an array 
                                     String data [] = {item_id, item_name, item_brand, item_type, item_gender, item_size, item_price};
+                                    
+                                    //Hide all the hidden labels 
                                     Warning();
-                                        
-                                    do {
-                                        s =(String) itemTable.getValueAt (nextRow, 0);
-                                        if (s != null && s.length() != 0) {
-                                            nextRow++;
-                                        } else {
-                                            empty = true;
+                                    
+                                    //Get the total number of rows 
+                                    int totalRows = itemTable.getRowCount();
+                                    //Set the total number of columns
+                                    int column = 7;
+                                    //Find the total number of rows filled in the table
+                                    int rows = findFilledRows(totalRows);
+                                    
+                                    //Declare checkItemId variable with values as null
+                                    String checkItemId = "";
+                                    //Declare checkIdName variable with values as null
+                                    String checkItemName = "";
+                                    //Declare checkItemBrand variable with values as null
+                                    String checkItemBrand = "";
+                                    //Declare checkItemType variable with values as null
+                                    String checkItemType = "";
+                                    //Declare checkItemGender variable with values as null
+                                    String checkItemGender = "";
+                                    //Declare checkItemSize variable with values as null
+                                    String checkItemSize = "";
+                                    //Declare checkItemPrice variable with values as null
+                                    String checkItemPrice = "";
+                                    
+                                    //Implementing a try catch 
+                                    try {
+                                        //Check if the table is empty
+                                        if (checkTableEmpty()) {
+                                            //If table is completely empty then fill the value.
+                                            populateData(data); 
                                         }
-                                    }while (nextRow < rows && !empty);
-                                     if (nextRow >= rows && !empty) {
-                                         DefaultTableModel model = (DefaultTableModel) itemTable.getModel();
-                                         model.addRow(data);
-                                         
-                                     }else {
-                                         for (int i = 0; i < colCount; i++) {
-                                             itemTable.setValueAt(data[i], nextRow, i);
-                                         }
-                                     }
+                                        //If the table is not empty then check the values
+                                        else {
+                                            //Declare boolen variable as false
+                                            boolean checkFlag = false;
+                                            //Create an object to store the row of data
+                                            Object[][] rowData = new Object[itemTable.getRowCount()][itemTable.getColumnCount()];
+                                            
+                                            //Use for loop to iterate through the row
+                                            for (int j = 0; j < rows; j++) {
+                                                //Using a nested for loop to iterate through all the column values
+                                                for (int i = 0; i < column; i++) {
+                                                    //Get the value and store it in the array
+                                                    rowData[j][i] = itemTable.getValueAt(j, i);
+                                                    
+                                                    //Store the value of id in the array into the variables 
+                                                    checkItemId = (String) rowData[j][0];
+                                                    //Store the value of name in the array into the variables
+                                                    checkItemName = (String) rowData[j][1];
+                                                    //Store the value of brand in the array into the variables
+                                                    checkItemBrand = (String) rowData[j][2];
+                                                    //Store the value of type in the array into the variables
+                                                    checkItemType = (String) rowData[j][3];
+                                                    //Store the value of gender in the array into the variables
+                                                    checkItemGender = (String) rowData[j][4];
+                                                    //Store the value of size in the array into the variables
+                                                    checkItemSize = (String) rowData[j][5];
+                                                    //Store the value of price in the array into the variables
+                                                    checkItemPrice = (String) rowData[j][6];  
+                                                }
+                                            }
+                                            //Check duplicate data entry
+                                            if (checkItemId.equals(item_id) && checkItemName.equals(item_name) && checkItemBrand.equals(item_brand) && checkItemType.equals(item_type) && checkItemGender.equals(item_gender) && checkItemSize.equals(item_size) && checkItemPrice.equals(item_price)){
+                                                checkFlag = true;
+                                            } else {
+                                                checkFlag = false;
+                                            }
+                                            
+                                            //If true restrict the entry 
+                                            if (checkFlag){
+                                                JOptionPane.showMessageDialog(addItemPane, "Duplicate data entry found. Please refrain from entering double values.","Alert",JOptionPane.WARNING_MESSAGE);
+                                            //If false then add the data in the table
+                                            } else {
+                                                populateData(data);
+                                            }
+                                        }
+                                    //Catch any exceptions that occur during the execution
+                                    } catch (Exception e) {
+                                        JOptionPane.showMessageDialog(addItemPane, "Error" + e + "occured.","Alert",JOptionPane.WARNING_MESSAGE);
+                                    }
+                                //Display if price field is left empty.
                                 } else {
                                     Warning();
                                     priceValidationLBL.setText("*Required Field");
-                                    JOptionPane.showMessageDialog(new javax.swing.JFrame(), "Please fill in the price of the item.","Alert",JOptionPane.WARNING_MESSAGE);
+                                    priceTF.grabFocus();
+                                    JOptionPane.showMessageDialog(addItemPane, "Please fill in the price of the item.","Alert",JOptionPane.WARNING_MESSAGE);
                                 }
+                            //Display if size field is left empty
                             } else {
+                                Warning();
                                 sizeValidationLBL.setText("*Required Field");
-                                itemIDValidationLBL.setText("");
-                                nameValidationLBL.setText("");
-                                brandValidationLBL.setText("");
-                                typeValidationLBL.setText("");
-                                genderValidationLBL.setText("");
-                                priceValidationLBL.setText("");
-                                JOptionPane.showMessageDialog(null,"Please select one or more than one size option.","Alert",JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(addItemPane,"Please select one or more than one size option.","Alert",JOptionPane.WARNING_MESSAGE);
                             }
+                        //Display if gender is left not selected
                         }else {
+                            Warning();
                             genderValidationLBL.setText("*Required Field");
-                            itemIDValidationLBL.setText("");
-                            nameValidationLBL.setText("");
-                            brandValidationLBL.setText("");
-                            typeValidationLBL.setText("");
-                            sizeValidationLBL.setText("");
-                            priceValidationLBL.setText("");
-                            JOptionPane.showMessageDialog(null,"Please select any one of the gender option.","Alert",JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(addItemPane,"Please select any one of the gender option.","Alert",JOptionPane.WARNING_MESSAGE);
                         }
+                    //Display if type is not selected.
                     } else {
+                        Warning();
                         typeValidationLBL.setText("*Required Field");
-                        itemIDValidationLBL.setText("");
-                        nameValidationLBL.setText("");
-                        brandValidationLBL.setText("");
-                        genderValidationLBL.setText("");
-                        sizeValidationLBL.setText("");
-                        priceValidationLBL.setText("");
-                        JOptionPane.showMessageDialog(null,"Please select the type of item.","Alert",JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(addItemPane,"Please select the type of item.","Alert",JOptionPane.WARNING_MESSAGE);
                     }
+                //Display if brand field is left empty
                 } else {
+                    Warning();
                     brandValidationLBL.setText("*Required Field");
                     brandTF.grabFocus();
-                    itemIDValidationLBL.setText("");
-                    nameValidationLBL.setText("");
-                    typeValidationLBL.setText("");
-                    genderValidationLBL.setText("");
-                    sizeValidationLBL.setText("");
-                    priceValidationLBL.setText("");
-                    JOptionPane.showMessageDialog(null,"Please fill in the brand of the item.","Alert",JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(addItemPane,"Please fill in the brand of the item.","Alert",JOptionPane.WARNING_MESSAGE);
                 }
+            //Display if name field is left empty
             } else {
+                Warning();
                 nameValidationLBL.setText("*Required Field");
                 nameTF.grabFocus();
-                itemIDValidationLBL.setText("");
-                brandValidationLBL.setText("");
-                typeValidationLBL.setText("");
-                genderValidationLBL.setText("");
-                sizeValidationLBL.setText("");
-                priceValidationLBL.setText("");
-                JOptionPane.showMessageDialog(null,"Please fill in the name of the item.","Alert",JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(addItemPane,"Please fill in the name of the item.","Alert",JOptionPane.WARNING_MESSAGE);
             }
+        //Display if id field is left empty
         } else {
+            Warning();
             itemIDValidationLBL.setText("*Required Field");
             idTF.grabFocus();
-            nameValidationLBL.setText("");
-            brandValidationLBL.setText("");
-            typeValidationLBL.setText("");
-            genderValidationLBL.setText("");
-            sizeValidationLBL.setText("");
-            priceValidationLBL.setText("");
-            JOptionPane.showMessageDialog(null,"Please fill in the id of the item.","Alert",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(addItemPane,"Please fill in the id of the item.","Alert",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_addBTNActionPerformed
 
+    /**
+     * To set all the labels as null.
+     */
     public void Warning() {
         itemIDValidationLBL.setText("");
         nameValidationLBL.setText("");
@@ -695,9 +815,15 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         sizeValidationLBL.setText("");
         priceValidationLBL.setText("");
     }
+    
+    /**
+     * Entry of only numbers and backspace allowed
+     * @param evt 
+     */
     private void idTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTFKeyPressed
-        char a = evt.getKeyChar();
-        if (Character.isDigit(a)||evt.getKeyCode()==8) {
+        //Get the character when pressed from keyboard
+        char idCr = evt.getKeyChar();
+        if (Character.isDigit(idCr)||evt.getKeyCode()==8) {
             idTF.setEditable(true);
         } else {
             idTF.setEditable(false);
@@ -705,8 +831,9 @@ public class WosaaFSInfo extends javax.swing.JFrame {
     }//GEN-LAST:event_idTFKeyPressed
 
     private void priceTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_priceTFKeyPressed
-        char a = evt.getKeyChar();
-        if (Character.isDigit(a)||evt.getKeyCode()==8) {
+        //Get the character when pressed from keyboard
+        char priceCr = evt.getKeyChar();
+        if (Character.isDigit(priceCr)||evt.getKeyCode()==8) {
             priceTF.setEditable(true);
         } else {
             priceTF.setEditable(false);
@@ -714,8 +841,9 @@ public class WosaaFSInfo extends javax.swing.JFrame {
     }//GEN-LAST:event_priceTFKeyPressed
 
     private void priceSearchTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_priceSearchTFKeyPressed
-        char a = evt.getKeyChar();
-        if (Character.isDigit(a)||evt.getKeyCode()==8) {
+        //Get the character when pressed from keyboard
+        char searchPriceCr = evt.getKeyChar();
+        if (Character.isDigit(searchPriceCr)||evt.getKeyCode()==8) {
             priceSearchTF.setEditable(true);
         } else {
             priceSearchTF.setEditable(false);
@@ -723,8 +851,9 @@ public class WosaaFSInfo extends javax.swing.JFrame {
     }//GEN-LAST:event_priceSearchTFKeyPressed
 
     private void searchTypeBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTypeBTNActionPerformed
+        //Get the type selected 
         String search_type = (String) typeSearchCB.getSelectedItem();
-        
+        //Perform if selected type is not index 0
         if (typeSearchCB.getSelectedIndex() != 0) {
             searchType(search_type);
         } else {
@@ -734,22 +863,22 @@ public class WosaaFSInfo extends javax.swing.JFrame {
     }//GEN-LAST:event_searchTypeBTNActionPerformed
 
     private void idTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTFKeyReleased
-        // TODO add your handling code here:
+        //Set the id label as null when a character is pressed from the keyboard
         itemIDValidationLBL.setText("");
     }//GEN-LAST:event_idTFKeyReleased
 
     private void nameTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTFKeyReleased
-        // TODO add your handling code here:
+        //Set the name label as null when a character is pressed from the keyboard
         nameValidationLBL.setText("");
     }//GEN-LAST:event_nameTFKeyReleased
 
     private void brandTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_brandTFKeyReleased
-        // TODO add your handling code here:
+        //Set the brand label as null when a character is pressed from the keyboard
         brandValidationLBL.setText("");
     }//GEN-LAST:event_brandTFKeyReleased
 
     private void priceTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_priceTFKeyReleased
-        // TODO add your handling code here:
+        //Set the price label as null when a character is pressed from the keyboard
         priceValidationLBL.setText("");
     }//GEN-LAST:event_priceTFKeyReleased
     
@@ -776,7 +905,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
             }
         }
         
-        // Sotres the name of the required items
+        // Stores the name of the required items
         String answer = "";
         
         // retrieving the items of the required type
