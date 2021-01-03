@@ -512,6 +512,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         String search_price = priceSearchTF.getText();
         
         if (!search_price.isEmpty()) {
+            searchPriceValidationLBL.setText("");
             searchPrice(Integer.parseInt(search_price));
         } else {
             searchPriceValidationLBL.setText("*Required Field");
@@ -855,6 +856,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         String search_type = (String) typeSearchCB.getSelectedItem();
         //Perform if selected type is not index 0
         if (typeSearchCB.getSelectedIndex() != 0) {
+            searchTypeValidationLBL.setText("");
             searchType(search_type);
         } else {
             searchTypeValidationLBL.setText("*Required Field");
