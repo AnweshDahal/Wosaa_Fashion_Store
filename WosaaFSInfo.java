@@ -622,31 +622,31 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         String item_size = "";
         //Set this size if xs is selected
         if (xsChkB.isSelected()){
-            item_size = item_size + xsChkB.getText() + ",";
+            item_size = item_size + xsChkB.getText() + "|";
         }
         //Set this size if s is selected
         if (sChkB.isSelected()){
-            item_size = item_size + sChkB.getText() + ",";
+            item_size = item_size + sChkB.getText() + "|";
         }
         //Set this size if m is selected
         if (mChkB.isSelected()){
-            item_size = item_size + mChkB.getText() + ",";
+            item_size = item_size + mChkB.getText() + "|";
         }
         //Set this size if l is selected
         if (lChkB.isSelected()){
-            item_size = item_size + lChkB.getText() + ",";
+            item_size = item_size + lChkB.getText() + "|";
         }
         //Set this size if xl is selected
         if (xlChkB.isSelected()){
-            item_size = item_size + xlChkB.getText() + ",";
+            item_size = item_size + xlChkB.getText() + "|";
         }
         //Set this size if xx is selected
         if (xxlChkB.isSelected()){
-            item_size = item_size + xxlChkB.getText() + ",";
+            item_size = item_size + xxlChkB.getText() + "|";
         }
         //Set this size if xxl is selected
         if (xxxLChkB.isSelected()){
-            item_size = item_size + xxlChkB.getText() + ",";
+            item_size = item_size + xxxLChkB.getText() + "|";
         }
         
         //To discard string in the last position
