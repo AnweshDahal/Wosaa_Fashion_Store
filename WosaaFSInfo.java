@@ -1,4 +1,13 @@
 package wosaa_fashion_store_is;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import wosaa_fashion_store_is.BinarySearch;
@@ -471,6 +480,11 @@ public class WosaaFSInfo extends javax.swing.JFrame {
 
         openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         openMenuItem.setText("Open");
+        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(openMenuItem);
 
         exitMenuItem.setText("Exit");
@@ -578,6 +592,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
             
             //To add the row of data into the model.
             model.addRow(data);
+            clearMethod();
         }else {
             //To add the row of data into the model.
             for (int i = 0; i < colCount; i++) {
@@ -622,36 +637,36 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         String item_size = "";
         //Set this size if xs is selected
         if (xsChkB.isSelected()){
-            item_size = item_size + xsChkB.getText() + "|";
+            item_size = item_size + xsChkB.getText() + " | ";
         }
         //Set this size if s is selected
         if (sChkB.isSelected()){
-            item_size = item_size + sChkB.getText() + "|";
+            item_size = item_size + sChkB.getText() + " | ";
         }
         //Set this size if m is selected
         if (mChkB.isSelected()){
-            item_size = item_size + mChkB.getText() + "|";
+            item_size = item_size + mChkB.getText() + " | ";
         }
         //Set this size if l is selected
         if (lChkB.isSelected()){
-            item_size = item_size + lChkB.getText() + "|";
+            item_size = item_size + lChkB.getText() + " | ";
         }
         //Set this size if xl is selected
         if (xlChkB.isSelected()){
-            item_size = item_size + xlChkB.getText() + "|";
+            item_size = item_size + xlChkB.getText() + " | ";
         }
         //Set this size if xx is selected
         if (xxlChkB.isSelected()){
-            item_size = item_size + xxlChkB.getText() + "|";
+            item_size = item_size + xxlChkB.getText() + " | ";
         }
         //Set this size if xxl is selected
         if (xxxLChkB.isSelected()){
-            item_size = item_size + xxxLChkB.getText() + "|";
+            item_size = item_size + xxxLChkB.getText() + " | ";
         }
         
         //To discard string in the last position
         if (item_size.length() != 0) {
-            item_size = item_size.substring(0, item_size.length() - 1);
+            item_size = item_size.substring(0, item_size.length() - 2);
         }
 
         //Get the price from the fields
@@ -704,6 +719,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
                                     try {
                                         //Check if the table is empty
                                         if (checkTableEmpty()) {
+                                            saveToCSV(data);
                                             //If table is completely empty then fill the value.
                                             populateData(data); 
                                         }
@@ -749,6 +765,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
                                                 JOptionPane.showMessageDialog(addItemPane, "Duplicate data entry found. Please refrain from entering double values.","Alert",JOptionPane.WARNING_MESSAGE);
                                             //If false then add the data in the table
                                             } else {
+                                                saveToCSV(data);
                                                 populateData(data);
                                             }
                                         }
@@ -804,6 +821,27 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addBTNActionPerformed
 
+    public static void saveToCSV(String[] data) throws IOException{
+        try{
+            FileWriter fw=new FileWriter(getFileLocation(),true);
+            BufferedWriter bw= new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            String toAdd = "";
+            for (int i =0; i< data.length; i++){
+                toAdd += data[i]+",";
+            }
+            
+            toAdd = toAdd.substring(0, toAdd.length() - 1);
+
+            pw.println(toAdd);
+            pw.flush();
+            pw.close();
+           
+        }
+        catch (Exception E){
+            JOptionPane.showMessageDialog(null,"Record not saved in the CSV File","Alert",JOptionPane.WARNING_MESSAGE);
+        }
+    }
     /**
      * To set all the labels as null.
      */
@@ -883,6 +921,37 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         //Set the price label as null when a character is pressed from the keyboard
         priceValidationLBL.setText("");
     }//GEN-LAST:event_priceTFKeyReleased
+
+    private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
+        if (!isCSVImported){
+            String line;
+            String fileLocation=getFileLocation();
+            System.out.println(fileLocation);
+    //        C:\\Users\\Pratik\\Documents\\NetBeansProjects\\wosaa_fashion_store_is\\src\\wosaa_fashion_store_is\\
+            try {
+
+                BufferedReader br = new BufferedReader(new FileReader(fileLocation));
+                while ((line= br.readLine())!=null){
+                    System.out.println(line);
+                    String [] data = line.split(",");
+                       isCSVImported=true;
+                    populateData(data);
+                }
+            } catch (FileNotFoundException ex1) {
+                JOptionPane.showMessageDialog(null,ex1+" Error Occurred","Alert",JOptionPane.WARNING_MESSAGE);
+            } catch (IOException ex2) {
+                 JOptionPane.showMessageDialog(null,ex2+" Error Occured","Alert",JOptionPane.WARNING_MESSAGE);
+        }
+        }else{
+            JOptionPane.showMessageDialog(null,"The CSV File has already been imported.","Alert",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_openMenuItemActionPerformed
+    
+    private static String getFileLocation(){
+        // Getting the path of csv file
+        String fileLocation=System.getProperty("user.dir") + "\\src\\wosaa_fashion_store_is\\wosaaStoreDatabase.csv";
+        return fileLocation;
+    }
     
     private void searchType(String itemType){
         // Check if the table contains data
@@ -1067,7 +1136,8 @@ public class WosaaFSInfo extends javax.swing.JFrame {
             }
         });
     }
-
+    
+    private static boolean isCSVImported=false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBTN;
     private javax.swing.JLabel addItemLBL;
