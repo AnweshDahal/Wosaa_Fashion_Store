@@ -1,4 +1,6 @@
 package wosaa_fashion_store_is;
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -488,6 +490,11 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         fileMenu.add(openMenuItem);
 
         exitMenuItem.setText("Exit");
+        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(exitMenuItem);
 
         mainMenu.add(fileMenu);
@@ -946,6 +953,12 @@ public class WosaaFSInfo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"The CSV File has already been imported.","Alert",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_openMenuItemActionPerformed
+
+    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
+        // TODO add your handling code here:
+        WindowEvent windowCloseEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(windowCloseEvent);
+    }//GEN-LAST:event_exitMenuItemActionPerformed
     
     private static String getFileLocation(){
         // Getting the path of csv file
