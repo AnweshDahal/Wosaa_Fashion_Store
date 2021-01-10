@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import wosaa_fashion_store_is.BinarySearch;
 import wosaa_fashion_store_is.MergeSorter;
@@ -611,7 +613,14 @@ public class WosaaFSInfo extends javax.swing.JFrame {
     }
     
     private void addBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBTNActionPerformed
-        
+        //Calls the check data method.
+        checkData();
+    }//GEN-LAST:event_addBTNActionPerformed
+    
+    /**
+     * Get all the data from the table and validate it.
+     */
+    public void checkData() {
         //Get the item id from the field
         String item_id = idTF.getText();
         
@@ -782,52 +791,44 @@ public class WosaaFSInfo extends javax.swing.JFrame {
                                     }
                                 //Display if price field is left empty.
                                 } else {
-                                    Warning();
-                                    priceValidationLBL.setText("*Required Field");
+                                    warnMessage(priceValidationLBL, "Please select the price of the item.");
                                     priceTF.grabFocus();
-                                    JOptionPane.showMessageDialog(addItemPane, "Please fill in the price of the item.","Alert",JOptionPane.WARNING_MESSAGE);
                                 }
                             //Display if size field is left empty
                             } else {
-                                Warning();
-                                sizeValidationLBL.setText("*Required Field");
-                                JOptionPane.showMessageDialog(addItemPane,"Please select one or more than one size option.","Alert",JOptionPane.WARNING_MESSAGE);
+                                warnMessage(sizeValidationLBL, "Please select the size of the item.");
                             }
                         //Display if gender is left not selected
                         }else {
-                            Warning();
-                            genderValidationLBL.setText("*Required Field");
-                            JOptionPane.showMessageDialog(addItemPane,"Please select any one of the gender option.","Alert",JOptionPane.WARNING_MESSAGE);
+                            warnMessage(genderValidationLBL, "Please select the gender of the item.");
                         }
                     //Display if type is not selected.
                     } else {
-                        Warning();
-                        typeValidationLBL.setText("*Required Field");
-                        JOptionPane.showMessageDialog(addItemPane,"Please select the type of item.","Alert",JOptionPane.WARNING_MESSAGE);
+                        warnMessage(typeValidationLBL, "Please select the type of the item.");
                     }
                 //Display if brand field is left empty
                 } else {
-                    Warning();
-                    brandValidationLBL.setText("*Required Field");
+                    warnMessage(brandValidationLBL, "Please fill in the brand of the item.");
                     brandTF.grabFocus();
-                    JOptionPane.showMessageDialog(addItemPane,"Please fill in the brand of the item.","Alert",JOptionPane.WARNING_MESSAGE);
                 }
             //Display if name field is left empty
             } else {
-                Warning();
-                nameValidationLBL.setText("*Required Field");
+                warnMessage(nameValidationLBL, "Please fill in the name of the item.");
                 nameTF.grabFocus();
-                JOptionPane.showMessageDialog(addItemPane,"Please fill in the name of the item.","Alert",JOptionPane.WARNING_MESSAGE);
             }
         //Display if id field is left empty
         } else {
-            Warning();
-            itemIDValidationLBL.setText("*Required Field");
+            warnMessage(itemIDValidationLBL, "Please fill in the id of the item.");
             idTF.grabFocus();
-            JOptionPane.showMessageDialog(addItemPane,"Please fill in the id of the item.","Alert",JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_addBTNActionPerformed
-
+    }
+    
+    private void warnMessage(JLabel warnLabel, String warnMessage) {
+        Warning();
+        warnLabel.setText("*Required Field");
+        JOptionPane.showMessageDialog(addItemPane, warnMessage,"Alert",JOptionPane.WARNING_MESSAGE);
+    }
+    
     public static void saveToCSV(String[] data) throws IOException{
         try{
             FileWriter fw=new FileWriter(getFileLocation(),true);

@@ -23,11 +23,11 @@ public class BinarySearch {
                 return mid;
             } else if (Integer.parseInt((String)array[mid][6]) > find){
                 // if the item at midpoint is larger than the item required
-                // assigns the value of the midpoint + 1 to high
+                // assigns the value of the midpoint - 1 to high
                 high = mid - 1;
             } else if (Integer.parseInt((String)array[mid][6]) < find){
                 // if the item at midpoint is lower than the required item
-                // assign the value of midpoint -1 to low
+                // assign the value of midpoint + 1 to low
                 low = mid + 1;
             }
             // loops recursively until either
