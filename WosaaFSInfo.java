@@ -537,6 +537,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         if (!search_price.isEmpty()) {
             searchPriceValidationLBL.setText("");
             searchPrice(Integer.parseInt(search_price));
+            priceSearchTF.setText("");
         } else {
             searchPriceValidationLBL.setText("*Required Field");
             searchPriceValidationLBL.grabFocus();
@@ -904,6 +905,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         if (typeSearchCB.getSelectedIndex() != 0) {
             searchTypeValidationLBL.setText("");
             searchType(search_type);
+            typeSearchCB.setSelectedIndex(0);
         } else {
             searchTypeValidationLBL.setText("*Required Field");
             JOptionPane.showMessageDialog(null,"The type of the item should not be left empty.","Alert",JOptionPane.WARNING_MESSAGE);
