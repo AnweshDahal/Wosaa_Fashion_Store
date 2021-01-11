@@ -34,11 +34,18 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="helpMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Help"/>
+            <Property name="text" type="java.lang.String" value="About"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="helpMenuActionPerformed"/>
-          </Events>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="usrManual">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Help"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="usrManualActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
       </SubComponents>
     </Menu>
