@@ -502,6 +502,11 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         mainMenu.add(fileMenu);
 
         helpMenu.setText("Help");
+        helpMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpMenuActionPerformed(evt);
+            }
+        });
         mainMenu.add(helpMenu);
 
         setJMenuBar(mainMenu);
@@ -962,6 +967,11 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         WindowEvent windowCloseEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(windowCloseEvent);
     }//GEN-LAST:event_exitMenuItemActionPerformed
+
+    private void helpMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpMenuActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_helpMenuActionPerformed
     
     private static String getFileLocation(){
         // Getting the path of csv file
