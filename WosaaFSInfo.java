@@ -1,8 +1,10 @@
 package wosaa_fashion_store_is;
+import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -104,6 +106,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         openMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
+        usrManual = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Wosaa Fashion Store - Inventory Information System");
@@ -501,12 +504,16 @@ public class WosaaFSInfo extends javax.swing.JFrame {
 
         mainMenu.add(fileMenu);
 
-        helpMenu.setText("Help");
-        helpMenu.addActionListener(new java.awt.event.ActionListener() {
+        helpMenu.setText("About");
+
+        usrManual.setText("Help");
+        usrManual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                helpMenuActionPerformed(evt);
+                usrManualActionPerformed(evt);
             }
         });
+        helpMenu.add(usrManual);
+
         mainMenu.add(helpMenu);
 
         setJMenuBar(mainMenu);
@@ -968,10 +975,24 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(windowCloseEvent);
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
-    private void helpMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpMenuActionPerformed
+    private void usrManualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usrManualActionPerformed
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_helpMenuActionPerformed
+        try{
+            File file = new File(System.getProperty("user.dir") + "\\src\\wosaa_fashion_store_is\\README.md");
+            if(!Desktop.isDesktopSupported()){
+                JOptionPane.showMessageDialog(null,"Cant Load File","Desktop Not Supported",JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Desktop desktop = Desktop.getDesktop();
+            if(file.exists()){
+                desktop.open(file);
+            } else{
+                JOptionPane.showMessageDialog(null,"File Missing","Error",JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null,"File Not Found","Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_usrManualActionPerformed
     
     private static String getFileLocation(){
         // Getting the path of csv file
@@ -1213,6 +1234,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> typeSearchCB;
     private javax.swing.JLabel typeValidationLBL;
     private javax.swing.JRadioButton unisexRB;
+    private javax.swing.JMenuItem usrManual;
     private javax.swing.JRadioButton womenRB;
     private javax.swing.JCheckBox xlChkB;
     private javax.swing.JCheckBox xsChkB;
