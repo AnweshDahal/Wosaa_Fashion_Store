@@ -842,24 +842,36 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(addItemPane, warnMessage,"Alert",JOptionPane.WARNING_MESSAGE);
     }
     
-    public static void saveToCSV(String[] data) throws IOException{
+    /**
+     * To save all the elements of the array to the CSV File
+     * @param data
+     * @throws IOException 
+     */
+    private void saveToCSV(String[] data) throws IOException{
+        // retrieving file location
+        String fileLocation=getFileLocation();
+        //   try catch block to catch IOEXception
         try{
-            FileWriter fw=new FileWriter(getFileLocation(),true);
+            FileWriter fw=new FileWriter(fileLocation,true);
             BufferedWriter bw= new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             String toAdd = "";
-            for (int i =0; i< data.length; i++){
-                toAdd += data[i]+",";
+            // storing all array elements to a single string seperated by comma
+            for (String item : data) {
+                toAdd += item + ",";
             }
             
+            // using substring method to remove the comma at the end of the string
             toAdd = toAdd.substring(0, toAdd.length() - 1);
 
+            // adding to the CSV File
             pw.println(toAdd);
             pw.flush();
             pw.close();
            
         }
-        catch (Exception E){
+        catch (IOException E){
+        // Error message is displayed if IOException occurs
             JOptionPane.showMessageDialog(null,"Record not saved in the CSV File","Alert",JOptionPane.WARNING_MESSAGE);
         }
     }
@@ -943,29 +955,39 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         //Set the price label as null when a character is pressed from the keyboard
         priceValidationLBL.setText("");
     }//GEN-LAST:event_priceTFKeyReleased
-
+    
+    /**
+     * To import the data from the CSV file and pass it to the populateData method
+     * @param evt 
+     */
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
+        // Not allowing the JTable to be populated if the CSV File already been imported    
         if (!isCSVImported){
             String line;
             String fileLocation=getFileLocation();
-            System.out.println(fileLocation);
-    //        C:\\Users\\Pratik\\Documents\\NetBeansProjects\\wosaa_fashion_store_is\\src\\wosaa_fashion_store_is\\
+            // Implementing try catch block to catch errors and display appropriate error messages
             try {
 
                 BufferedReader br = new BufferedReader(new FileReader(fileLocation));
+            // While loop runs until the next line in the CSV File is not null
                 while ((line= br.readLine())!=null){
-                    System.out.println(line);
+                    // Storing the data into array                     
                     String [] data = line.split(",");
-                       isCSVImported=true;
+                    // Setting the variable to true as the CSV File has been succesfully imported
+                    isCSVImported=true;
+                    // the populateData method populates the JTable with elements of the array
                     populateData(data);
                 }
             } catch (FileNotFoundException ex1) {
-                JOptionPane.showMessageDialog(null,ex1+" Error Occurred","Alert",JOptionPane.WARNING_MESSAGE);
+                // Error message is displayed if the CSV file is not found occurs
+                JOptionPane.showMessageDialog(null,"CSV File Not Found.\n Hint: Keep the CSV File inside the package folder of the project directory.","Alert",JOptionPane.WARNING_MESSAGE);
             } catch (IOException ex2) {
-                 JOptionPane.showMessageDialog(null,ex2+" Error Occured","Alert",JOptionPane.WARNING_MESSAGE);
-        }
+                // Error message is displayed if IOException occurs
+                 JOptionPane.showMessageDialog(null,"IOException Occured.","Alert",JOptionPane.WARNING_MESSAGE);
+            }
         }else{
-            JOptionPane.showMessageDialog(null,"The CSV File has already been imported.","Alert",JOptionPane.WARNING_MESSAGE);
+//           // The message is displayed to inform user that the CSV File has already been imported
+            JOptionPane.showMessageDialog(null,"The CSV File has already been imported.");
         }
     }//GEN-LAST:event_openMenuItemActionPerformed
 
@@ -994,9 +1016,14 @@ public class WosaaFSInfo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_usrManualActionPerformed
     
-    private static String getFileLocation(){
+    /**
+     * To return the file path of the CSV File in string datatype
+     * @return fileLocation 
+     */
+    private String getFileLocation(){
         // Getting the path of csv file
         String fileLocation=System.getProperty("user.dir") + "\\src\\wosaa_fashion_store_is\\wosaaStoreDatabase.csv";
+        // Returning the value of the fileLocation variable when the method is called
         return fileLocation;
     }
     
