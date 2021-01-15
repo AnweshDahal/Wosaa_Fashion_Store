@@ -981,7 +981,7 @@ public class WosaaFSInfo extends javax.swing.JFrame {
     private void usrManualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usrManualActionPerformed
         // TODO add your handling code here:
         try{
-            File file = new File(System.getProperty("user.dir") + "\\src\\wosaa_fashion_store_is\\README.md");
+            File file = new File(System.getProperty("user.dir") + "\\src\\wosaa_fashion_store_is\\Help.pdf");
             if(!Desktop.isDesktopSupported()){
                 JOptionPane.showMessageDialog(null,"Cant Load File","Desktop Not Supported",JOptionPane.ERROR_MESSAGE);
                 return;
