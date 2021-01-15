@@ -627,7 +627,11 @@ public class WosaaFSInfo extends javax.swing.JFrame {
     
     private void addBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBTNActionPerformed
         //Calls the check data method.
-        checkData();
+        if (isCSVImported){
+            checkData();
+        } else {
+            JOptionPane.showMessageDialog(null,"Import the data from the CSV before adding the data","CSV Not Imported",JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_addBTNActionPerformed
     
     /**
