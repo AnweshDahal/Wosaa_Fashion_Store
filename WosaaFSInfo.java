@@ -10,14 +10,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import wosaa_fashion_store_is.BinarySearch;
-import wosaa_fashion_store_is.MergeSorter;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -762,7 +757,6 @@ public class WosaaFSInfo extends javax.swing.JFrame {
                                             //Declare boolen variable as false
                                             boolean checkFlag = false;
                                             //Create an object to store the row of data
-                                            // Object[][] rowData = new Object[itemTable.getRowCount()][itemTable.getColumnCount()];
                                             
                                             //Use for loop to iterate through the row
                                             for (int j = 0; j < rows; j++) {
@@ -772,42 +766,12 @@ public class WosaaFSInfo extends javax.swing.JFrame {
                                                 if (checkItemId.equals(item_id)){
                                                         checkFlag = true;
                                                         break;
-                                                    } 
-//                                                for (int i = 0; i < column; i++) {
-//                                                    //Get the value and store it in the array
-//                                                    // rowData[j][i] = itemTable.getValueAt(j, i);
-//                                                    //Store the value of id in the array into the variables 
-//                                                    // checkItemId = (String) rowData[j][0];
-//                                                    //Store the value of name in the array into the variables
-////                                                    checkItemName = (String) rowData[j][1];
-////                                                    //Store the value of brand in the array into the variables
-////                                                    checkItemBrand = (String) rowData[j][2];
-////                                                    //Store the value of type in the array into the variables
-////                                                    checkItemType = (String) rowData[j][3];
-////                                                    //Store the value of gender in the array into the variables
-////                                                    checkItemGender = (String) rowData[j][4];
-////                                                    //Store the value of size in the array into the variables
-////                                                    checkItemSize = (String) rowData[j][5];
-////                                                    //Store the value of price in the array into the variables
-////                                                    checkItemPrice = (String) rowData[j][6];  
-//                                                    
-//                                                    //Check duplicate data entry
-//                                                    
-////                                                    else {
-////                                                        checkFlag = false;
-////                                                    }
-//                                                }
+                                                    }                                                
                                             }
-//                                            //Check duplicate data entry
-//                                            if (checkItemId.equals(item_id) && checkItemName.equals(item_name) && checkItemBrand.equals(item_brand) && checkItemType.equals(item_type) && checkItemGender.equals(item_gender) && checkItemSize.equals(item_size) && checkItemPrice.equals(item_price)){
-//                                                checkFlag = true;
-//                                            } else {
-//                                                checkFlag = false;
-//                                            }
                                             
                                             //If true restrict the entry 
                                             if (checkFlag){
-                                                JOptionPane.showMessageDialog(addItemPane, " New ID  is a duplicate of an existing ID: " + item_id,"Duplicate data entry found.",JOptionPane.WARNING_MESSAGE);
+                                                JOptionPane.showMessageDialog(addItemPane, "The entered ID  is a duplicate of an existing ID: " + item_id,"Duplicate data entry found.",JOptionPane.WARNING_MESSAGE);
                                             //If false then add the data in the table
                                             } else {
                                                 saveToCSV(data);
